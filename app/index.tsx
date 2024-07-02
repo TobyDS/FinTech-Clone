@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet } from 'react-native';
+import Colors from '@/constants/Colors';
+import { defaultStyles } from '@/constants/Styles';
 import { useAssets } from 'expo-asset';
 import { ResizeMode, Video } from 'expo-av';
-import { TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
-import { defaultStyles } from '@/constants/Styles';
-import Colors from '@/constants/Colors';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const Page = () => {
   const [assets] = useAssets([require('@/assets/videos/intro.mp4')]);
@@ -14,11 +13,12 @@ const Page = () => {
       {assets && (
         <Video
           resizeMode={ResizeMode.COVER}
-          isMuted
-          isLooping
-          shouldPlay
+          isMuted={true}
+          isLooping={true}
+          shouldPlay={true}
           source={{ uri: assets[0].uri }}
           style={styles.video}
+          useNativeControls={false}
         />
       )}
       <View style={{ marginTop: 80, padding: 20 }}>

@@ -1,24 +1,40 @@
 import Colors from '@/constants/Colors';
+import { defaultStyles } from '@/constants/Styles';
+import { useSignUp } from '@clerk/clerk-expo';
+import { Link, useRouter } from 'expo-router';
+import { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { defaultStyles } from '@/constants/Styles';
-import { useState } from 'react';
-import { Link } from 'expo-router';
 
 const Page = () => {
   const [countryCode, setCountryCode] = useState('+44');
   const [phoneNumber, setPhoneNumber] = useState('');
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 80 : 0;
+  const router = useRouter();
+  const { signUp } = useSignUp();
 
-  const onSignup = () => {
-    //TODO
+  const onSignup = async () => {
+    const fullPhoneNumber = `${countryCode}${phoneNumber}`;
+
+    try {
+      await signUp!.create({
+        phoneNumber: fullPhoneNumber,
+      });
+      signUp!.preparePhoneNumberVerification();
+      router.push({
+        pathname: '/verify/[phone]',
+        params: { phone: fullPhoneNumber },
+      });
+    } catch (error) {
+      console.error('Error signing up:', error);
+    }
   };
   return (
     <KeyboardAvoidingView
