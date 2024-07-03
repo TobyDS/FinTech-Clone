@@ -31,8 +31,8 @@ const Page = () => {
     <ScrollView style={{ backgroundColor: Colors.background }}>
       <View style={styles.account}>
         <View style={styles.row}>
-          <Text style={styles.currency}>£</Text>
-          <Text style={styles.balance}>{balance()}</Text>
+          <Text style={styles.currency}>{balance() < 0 ? '- £' : '£'}</Text>
+          <Text style={styles.balance}>{Math.abs(balance())}</Text>
         </View>
       </View>
 
@@ -73,7 +73,10 @@ const Page = () => {
                 {transaction.date.toLocaleString()}
               </Text>
             </View>
-            <Text>£{transaction.amount}</Text>
+            <Text>
+              {transaction.amount < 0 ? '- £' : '£'}
+              {Math.abs(transaction.amount)}
+            </Text>
           </View>
         ))}
       </View>
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   currency: {
-    fontSize: 30,
+    fontSize: 50,
     fontWeight: '500',
   },
   actionRow: {
