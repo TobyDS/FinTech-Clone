@@ -12,6 +12,7 @@ import Dropdown from '@/components/Dropdown';
 import { useBalanceStore } from '@/store/balanceStore';
 import { defaultStyles } from '@/constants/Styles';
 import { Ionicons } from '@expo/vector-icons';
+import WidgetList from '@/components/SortableList/WidgetList';
 
 const Page = () => {
   const { balance, runTransaction, transactions, clearTransactions } =
@@ -30,8 +31,8 @@ const Page = () => {
     <ScrollView style={{ backgroundColor: Colors.background }}>
       <View style={styles.account}>
         <View style={styles.row}>
-          <Text style={styles.balance}>{balance()}</Text>
           <Text style={styles.currency}>£</Text>
+          <Text style={styles.balance}>{balance()}</Text>
         </View>
       </View>
 
@@ -72,10 +73,12 @@ const Page = () => {
                 {transaction.date.toLocaleString()}
               </Text>
             </View>
-            <Text>{transaction.amount}£</Text>
+            <Text>£{transaction.amount}</Text>
           </View>
         ))}
       </View>
+      <Text style={defaultStyles.sectionHeader}>Widgets</Text>
+      <WidgetList />
     </ScrollView>
   );
 };
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'baseline',
     justifyContent: 'center',
     gap: 10,
   },
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   currency: {
-    fontSize: 20,
+    fontSize: 30,
     fontWeight: '500',
   },
   actionRow: {
