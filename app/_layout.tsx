@@ -68,7 +68,7 @@ const InitialLayout = () => {
     } else if (!isSignedIn) {
       router.replace('/');
     }
-  }, [ isSignedIn, isLoaded]);
+  }, [isSignedIn, isLoaded]);
 
   if (!loaded || !isLoaded) {
     return (
