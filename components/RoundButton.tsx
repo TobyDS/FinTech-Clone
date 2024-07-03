@@ -5,7 +5,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 type RoundButtonProps = {
   text: string;
   icon: typeof Ionicons.defaultProps;
-  onPress: () => void;
+  onPress?: () => void;
 };
 
 const RoundButton = ({ text, icon, onPress }: RoundButtonProps) => {
