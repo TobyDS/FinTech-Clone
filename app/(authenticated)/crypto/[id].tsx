@@ -40,7 +40,6 @@ const Page = () => {
   const { state, isActive } = useChartPressState({ x: 0, y: { price: 0 } });
 
   useEffect(() => {
-    console.log(isActive);
     if (isActive) Haptics.selectionAsync();
   }, [isActive]);
 
