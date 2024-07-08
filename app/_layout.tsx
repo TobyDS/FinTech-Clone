@@ -12,6 +12,8 @@ import { TouchableOpacity, Text, View, ActivityIndicator } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import 'react-native-reanimated';
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+const queryClient = new QueryClient();
 
 const tokenCache = {
   async getToken(key: string) {
@@ -157,6 +159,34 @@ const InitialLayout = () => {
       />
 
       <Stack.Screen
+        name='(authenticated)/crypto/[id]'
+        options={{
+          title: '',
+          headerLeft: () => (
+            <TouchableOpacity onPress={router.back}>
+              <Ionicons name='arrow-back' size={34} color={Colors.dark} />
+            </TouchableOpacity>
+          ),
+          headerLargeTitle: true,
+          headerTransparent: true,
+          headerRight: () => (
+            <View style={{ flexDirection: 'row', gap: 16 }}>
+              <TouchableOpacity>
+                <Ionicons
+                  name='notifications-outline'
+                  size={30}
+                  color={Colors.dark}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Ionicons name='star-outline' size={30} color={Colors.dark} />
+              </TouchableOpacity>
+            </View>
+          ),
+        }}
+      />
+
+      <Stack.Screen
         name='(authenticated)/(modals)/account'
         options={{
           presentation: 'transparentModal',
@@ -177,10 +207,12 @@ const InitialLayout = () => {
 const RootLayoutNav = () => {
   return (
     <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <StatusBar style='light' />
-        <InitialLayout />
-      </GestureHandlerRootView>
+      <QueryClientProvider client={queryClient}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <StatusBar style='light' />
+          <InitialLayout />
+        </GestureHandlerRootView>
+      </QueryClientProvider>
     </ClerkProvider>
   );
 };
