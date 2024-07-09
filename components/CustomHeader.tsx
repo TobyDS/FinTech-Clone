@@ -1,6 +1,6 @@
 import {
   StyleSheet,
-  Text,
+  Image,
   TextInput,
   TouchableOpacity,
   View,
@@ -10,9 +10,11 @@ import Colors from '@/constants/Colors';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import { useUser } from '@clerk/clerk-expo';
 
 const CustomHeader = () => {
   const { top } = useSafeAreaInsets();
+  const { user } = useUser();
   return (
     <BlurView intensity={80} tint={'extraLight'} style={{ paddingTop: top }}>
       <View style={styles.container}>
@@ -27,9 +29,9 @@ const CustomHeader = () => {
               alignItems: 'center',
             }}
           >
-            <Text style={{ color: '#fff', fontWeight: '500', fontSize: 16 }}>
-              TD
-            </Text>
+            {user?.imageUrl && (
+              <Image source={{ uri: user?.imageUrl }} style={styles.avatar} />
+            )}
           </TouchableOpacity>
         </Link>
         <View style={styles.searchSection}>
@@ -100,5 +102,11 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGray,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: Colors.gray,
   },
 });
